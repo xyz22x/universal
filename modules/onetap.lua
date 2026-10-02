@@ -81,21 +81,23 @@ local function find_target()
 end
 
 -- MAGIC — Workspace:Raycast hook
-local Raycast_orig = Workspace.Raycast
-if type(Raycast_orig) == "function" then
-    Workspace.Raycast = newcclosure(function(self, origin, direction, params)
-        if CFG.magic.enabled then
-            local target = find_target()
-            if target and math.random(0, 100) <= CFG.magic.hitchance then
-                local hrp = target.Char:FindFirstChild(RIG.hrp)
-                local predicted = target.Part.Position
-                if hrp then predicted = predicted + (hrp.AssemblyLinearVelocity * CFG.magic.prediction) end
-                direction = (predicted - origin).Unit * direction.Magnitude
+pcall(function()
+    local Raycast_orig = Workspace.Raycast
+    if type(Raycast_orig) == "function" then
+        Workspace.Raycast = newcclosure(function(self, origin, direction, params)
+            if CFG.magic.enabled then
+                local target = find_target()
+                if target and math.random(0, 100) <= CFG.magic.hitchance then
+                    local hrp = target.Char:FindFirstChild(RIG.hrp)
+                    local predicted = target.Part.Position
+                    if hrp then predicted = predicted + (hrp.AssemblyLinearVelocity * CFG.magic.prediction) end
+                    direction = (predicted - origin).Unit * direction.Magnitude
+                end
             end
-        end
-        return Raycast_orig(self, origin, direction, params)
-    end)
-end
+            return Raycast_orig(self, origin, direction, params)
+        end)
+    end
+end)
 
 -- MAGIC — métodos antigos (fallback)
 pcall(function()
