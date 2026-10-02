@@ -14,7 +14,7 @@ local GAME_MODULES = {
     [112757576021097] = "defusal",
 }
 
-local BASE = "https://raw.githubusercontent.com/xyz22/universal/main/modules/"
+local BASE = "https://raw.githubusercontent.com/xyz22x/universal/refs/heads/main/modules/"
 
 local function load_module(name)
     local url = BASE .. name .. ".lua"
